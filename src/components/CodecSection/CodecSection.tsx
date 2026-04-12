@@ -1,0 +1,117 @@
+import type { ChipProps } from "tscircuit"
+import { X322512MSB4SI } from "../../../imports/X322512MSB4SI"
+import { pcm2902Part, supplierPartNumbers } from "../../parts/lcsc"
+import { TRACE_WIDTHS } from "../../utils/constants"
+import { nets } from "../../utils/nets"
+
+const pcm2902PinLabels = {
+  pin1: "VCC5",
+  pin2: "DGND",
+  pin3: "DPLUS",
+  pin4: "DMINUS",
+  pin5: "VBUS",
+  pin6: "XTI",
+  pin7: "XTO",
+  pin8: "AGND",
+  pin9: "VCCL",
+  pin10: "VCOM",
+  pin11: "LOUT",
+  pin12: "ROUT",
+  pin13: "HPL",
+  pin14: "HPR",
+  pin15: "SSPND",
+  pin16: "PSEL",
+  pin17: "SCKO",
+  pin18: "BCK",
+  pin19: "DIN",
+  pin20: "DOUT",
+  pin21: "LRCK",
+  pin22: "TEST0",
+  pin23: "TEST1",
+  pin24: "TEST2",
+  pin25: "TEST3",
+  pin26: "GNDA2",
+  pin27: "VCCP",
+  pin28: "GNDP",
+} as const
+
+const PCM2902 = (props: ChipProps<typeof pcm2902PinLabels>) => (
+  <chip
+    {...props}
+    footprint={pcm2902Part.footprint}
+    manufacturerPartNumber={pcm2902Part.manufacturerPartNumber}
+    supplierPartNumbers={pcm2902Part.supplierPartNumbers}
+    pinLabels={pcm2902PinLabels}
+    pinAttributes={{
+      VBUS: { requiresPower: true },
+      VCC5: { requiresPower: true },
+      VCCL: { requiresPower: true },
+      VCCP: { requiresPower: true },
+      DGND: { requiresGround: true },
+      AGND: { requiresGround: true },
+      GNDA2: { requiresGround: true },
+      GNDP: { requiresGround: true },
+    }}
+  />
+)
+
+export function CodecSection() {
+  return (
+    <>
+      <PCM2902 name="U1" pcbX={-21} pcbY={0} />
+      <X322512MSB4SI
+        name="Y1"
+        pcbX={-10}
+        pcbY={8}
+      />
+      <capacitor name="C5" capacitance="22pF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_22p} pcbX={-18} pcbY={10} />
+      <capacitor name="C6" capacitance="22pF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_22p} pcbX={-2} pcbY={10} />
+      <capacitor name="C7" capacitance="100nF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_100n} pcbX={-29} pcbY={8} />
+      <capacitor name="C8" capacitance="100nF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_100n} pcbX={-29} pcbY={5} />
+      <capacitor name="C9" capacitance="10uF" footprint="0805" supplierPartNumbers={supplierPartNumbers.capacitor0805_10u} pcbX={-29} pcbY={2} />
+      <capacitor name="C10" capacitance="1uF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_1u} pcbX={-13} pcbY={-9} />
+
+      <trace from={nets.usbDp} to="U1.DPLUS" width={TRACE_WIDTHS.usb} />
+      <trace from={nets.usbDm} to="U1.DMINUS" width={TRACE_WIDTHS.usb} />
+      <trace from={nets.vbus} to="U1.VBUS" width="0.3mm" />
+      <trace from={nets.vbus} to="U1.VCC5" width="0.3mm" />
+      <trace from={nets.vbus} to="U1.VCCL" width="0.3mm" />
+      <trace from={nets.vbus} to="U1.VCCP" width="0.3mm" />
+      <trace from="U1.DGND" to={nets.gnd} />
+      <trace from="U1.AGND" to={nets.gnd} />
+      <trace from="U1.GNDA2" to={nets.gnd} />
+      <trace from="U1.GNDP" to={nets.gnd} />
+
+      <trace from="U1.XTI" to="Y1.OSC1" />
+      <trace from="U1.XTO" to="Y1.OSC2" />
+      <trace from="Y1.OSC1" to="C5.pin1" />
+      <trace from="C5.pin2" to={nets.gnd} />
+      <trace from="Y1.OSC2" to="C6.pin1" />
+      <trace from="C6.pin2" to={nets.gnd} />
+      <trace from="Y1.GND1" to={nets.gnd} />
+      <trace from="Y1.GND2" to={nets.gnd} />
+      <trace from="C7.pin1" to={nets.vbus} />
+      <trace from="C7.pin2" to={nets.gnd} />
+      <trace from="C8.pin1" to={nets.vbus} />
+      <trace from="C8.pin2" to={nets.gnd} />
+      <trace from="C9.pin1" to={nets.vbus} />
+      <trace from="C9.pin2" to={nets.gnd} />
+      <trace from="U1.VCOM" to="C10.pin1" />
+      <trace from="C10.pin2" to={nets.gnd} />
+
+      <trace from="U1.PSEL" to={nets.gnd} />
+      <trace from="U1.SSPND" to={nets.vbus} />
+      <trace from="U1.TEST0" to={nets.gnd} />
+      <trace from="U1.TEST1" to={nets.gnd} />
+      <trace from="U1.TEST2" to={nets.gnd} />
+      <trace from="U1.TEST3" to={nets.gnd} />
+
+      <trace from="U1.SCKO" to={nets.audioMclk} />
+      <trace from="U1.BCK" to={nets.audioBclk} />
+      <trace from="U1.LRCK" to={nets.audioLrck} />
+      <trace from="U1.DOUT" to={nets.audioData} />
+
+      <silkscreentext pcbX={-21} pcbY={13.5} text="PCM2902 USB AUDIO" fontSize="1.1mm" />
+    </>
+  )
+}

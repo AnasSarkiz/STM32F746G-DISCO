@@ -1,0 +1,71 @@
+import { STM32F303CCT6 } from "../../../imports/STM32F303CCT6"
+import { TS_1187A_B_A_B } from "../../../imports/TS_1187A_B_A_B"
+import { supplierPartNumbers } from "../../parts/lcsc"
+import { nets } from "../../utils/nets"
+
+export function McuSection() {
+  return (
+    <>
+      <STM32F303CCT6 name="U2" pcbX={2} pcbY={0} />
+      <capacitor name="C11" capacitance="100nF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_100n} pcbX={2} pcbY={11} />
+      <capacitor name="C12" capacitance="100nF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_100n} pcbX={5} pcbY={11} />
+      <capacitor name="C13" capacitance="100nF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_100n} pcbX={8} pcbY={11} />
+      <capacitor name="C14" capacitance="100nF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_100n} pcbX={11} pcbY={11} />
+      <capacitor name="C15" capacitance="1uF" footprint="0603" supplierPartNumbers={supplierPartNumbers.capacitor0603_1u} pcbX={14} pcbY={11} />
+
+      <resistor name="R3" resistance="10k" footprint="0603" supplierPartNumbers={supplierPartNumbers.resistor0603} pcbX={9} pcbY={-7} />
+      <resistor name="R4" resistance="100k" footprint="0603" supplierPartNumbers={supplierPartNumbers.resistor0603} pcbX={11} pcbY={-5} />
+      <resistor name="R5" resistance="10k" footprint="0603" supplierPartNumbers={supplierPartNumbers.resistor0603} pcbX={9} pcbY={-11} />
+      <TS_1187A_B_A_B
+        name="SW1"
+        pcbX={0}
+        pcbY={-11}
+      />
+
+      <trace from="U2.VBAT" to={nets.v3v3} />
+      <trace from="U2.VDD1" to={nets.v3v3} />
+      <trace from="U2.VDD3" to={nets.v3v3} />
+      <trace from="U2.VDDA" to={nets.v3v3} />
+      <trace from="U2.VSSA" to={nets.gnd} />
+      <trace from="U2.VSS1" to={nets.gnd} />
+      <trace from="C11.pin1" to={nets.v3v3} />
+      <trace from="C11.pin2" to={nets.gnd} />
+      <trace from="C12.pin1" to={nets.v3v3} />
+      <trace from="C12.pin2" to={nets.gnd} />
+      <trace from="C13.pin1" to={nets.v3v3} />
+      <trace from="C13.pin2" to={nets.gnd} />
+      <trace from="C14.pin1" to={nets.v3v3} />
+      <trace from="C14.pin2" to={nets.gnd} />
+      <trace from="C15.pin1" to={nets.v3v3} />
+      <trace from="C15.pin2" to={nets.gnd} />
+
+      <trace from="U2.NRST" to={nets.reset} />
+      <trace from={nets.reset} to="R3.pin1" />
+      <trace from="R3.pin2" to={nets.v3v3} />
+      <trace from={nets.reset} to="SW1.A" />
+      <trace from="SW1.B" to={nets.gnd} />
+      <trace from={nets.reset} to="SW1.C" />
+      <trace from="SW1.D" to={nets.gnd} />
+
+      <trace from="U2.BOOT0" to={nets.boot0} />
+      <trace from={nets.boot0} to="R4.pin1" />
+      <trace from="R4.pin2" to={nets.gnd} />
+      <trace from={nets.boot0} to="R5.pin1" />
+      <trace from="R5.pin2" to={nets.v3v3} />
+
+      <trace from={nets.audioMclk} to="U2.PA5" />
+      <trace from={nets.audioData} to="U2.PA7" />
+      <trace from={nets.audioBclk} to="U2.PB0" />
+      <trace from={nets.audioLrck} to="U2.PB1" />
+      <trace from="U2.PA0" to={nets.ledData} />
+      <trace from="U2.PA1" to={nets.ledSrclk} />
+      <trace from="U2.PA2" to={nets.ledLatch} />
+      <trace from="U2.PA3" to={nets.ledOe} />
+      <trace from="U2.PB10" to={nets.oledScl} />
+      <trace from="U2.PB11" to={nets.oledSda} />
+
+      <silkscreentext pcbX={2} pcbY={13.5} text="STM32F303 VU DSP" fontSize="1.1mm" />
+      <silkscreentext pcbX={-4} pcbY={-15.2} text="RESET" fontSize="1mm" />
+    </>
+  )
+}
