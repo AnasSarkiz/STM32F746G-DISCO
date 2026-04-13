@@ -16,6 +16,7 @@ export function Display() {
 				pcbX={LAYOUT.display.header.x}
 				pcbY={LAYOUT.display.header.y}
 				pcbRotation={0}
+        doNotPlace
 			/>
 			<resistor
 				name="R6"
