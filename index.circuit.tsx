@@ -1,1 +1,1 @@
-export { default } from "./src/board"
+export { default } from "./src/board";

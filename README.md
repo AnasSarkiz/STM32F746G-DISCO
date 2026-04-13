@@ -9,18 +9,20 @@ USB Audio VU Meter is a 2-layer tscircuit PCB for a USB sound-card endpoint that
 - USB-C power/data input with CC pull-downs, fuse, and USB ESD protection.
 - AMS1117-3.3 3.3 V regulator.
 - Three SN74HC595 shift registers driving 10 left-channel LEDs and 10 right-channel LEDs.
-- Optional 4-pin OLED I2C header.
+- Optional SSD1306-style 4-pin OLED module header with a silkscreened module outline.
 - SWD header, reset switch, and BOOT0 service header.
 
 ## Layout Intent
 
-- Board size: 100 mm x 45 mm, 2 layers.
+- Board size: 100 mm x 60 mm, 2 layers.
 - USB-C is placed on the left board edge.
 - PCM2902 is near USB to keep D+ and D- short and length matched.
 - STM32F303 is beside the codec.
 - LED bar spans the top edge.
-- OLED footprint is centered below the LED bar.
+- OLED module area is reserved on the lower-right side; J4 is the solderable 4-pin footprint and the silkscreen marks the module/glass outline.
 - SWD and BOOT0 access are on the bottom edge.
+- J2, J3, and J4 use through-hole pin-header footprints for assembled or hand-soldered headers.
+- LED colors are arranged as a center-out stereo meter: green near the middle, yellow next, red at the outside ends.
 
 ## Commands
 
