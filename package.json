@@ -1,6 +1,6 @@
 {
   "name": "@tsci/AnasSarkiz.STM32F746G-DISCO",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "A tscircuit component package",
   "main": "index.tsx",
   "keywords": [
