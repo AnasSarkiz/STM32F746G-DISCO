@@ -47,8 +47,8 @@ const pcm2902RightPadYs = [
 const pcm2902Footprint = (
 	<footprint>
 		{pcm2902LeftPadYs.map((y, index) => (
-			// @ts-expect-error React keys are valid on generated JSX children, but tscircuit's intrinsic pad type does not expose them.
 			<smtpad
+				//@ts-ignore
 				key={`left-${index}`}
 				portHints={[`${index + 1}`]}
 				pcbX="-2.05mm"
@@ -59,8 +59,8 @@ const pcm2902Footprint = (
 			/>
 		))}
 		{pcm2902RightPadYs.map((y, index) => (
-			// @ts-expect-error React keys are valid on generated JSX children, but tscircuit's intrinsic pad type does not expose them.
 			<smtpad
+				//@ts-ignore
 				key={`right-${index}`}
 				portHints={[`${index + 15}`]}
 				pcbX="2.05mm"
