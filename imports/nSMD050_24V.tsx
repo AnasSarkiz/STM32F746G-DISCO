@@ -9,6 +9,10 @@ export const nSMD050_24V = (props: ChipProps<typeof pinLabels>) => {
 	return (
 		<chip
 			pinLabels={pinLabels}
+			pinAttributes={{
+				pin1: { requiresPower: true },
+				pin2: { requiresPower: true, requiresGround: true },
+			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C70076"],
 			}}

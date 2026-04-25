@@ -1,106 +1,16 @@
-import type { ChipProps } from "tscircuit";
+import { PCM2900CDBR } from "../../../imports/PCM2900CDBR";
 import { X322512MSB4SI } from "../../../imports/X322512MSB4SI";
-import { pcm2902Part, supplierPartNumbers } from "../../parts/lcsc";
+import { supplierPartNumbers } from "../../parts/lcsc";
 import { LAYOUT, TRACE_WIDTHS } from "../../utils/constants";
 import { nets } from "../../utils/nets";
-
-const pcm2902PinLabels = {
-	pin1: "VCC5",
-	pin2: "DGND",
-	pin3: "DPLUS",
-	pin4: "DMINUS",
-	pin5: "VBUS",
-	pin6: "XTI",
-	pin7: "XTO",
-	pin8: "AGND",
-	pin9: "VCCL",
-	pin10: "VCOM",
-	pin11: "LOUT",
-	pin12: "ROUT",
-	pin13: "HPL",
-	pin14: "HPR",
-	pin15: "SSPND",
-	pin16: "PSEL",
-	pin17: "SCKO",
-	pin18: "BCK",
-	pin19: "DIN",
-	pin20: "DOUT",
-	pin21: "LRCK",
-	pin22: "TEST0",
-	pin23: "TEST1",
-	pin24: "TEST2",
-	pin25: "TEST3",
-	pin26: "GNDA2",
-	pin27: "VCCP",
-	pin28: "GNDP",
-} as const;
-
-const pcm2902LeftPadYs = [
-	8.255, 6.985, 5.715, 4.445, 3.175, 1.905, 0.635, -0.635, -1.905, -3.175,
-	-4.445, -5.715, -6.985, -8.255,
-];
-const pcm2902RightPadYs = [
-	-8.255, -6.985, -5.715, -4.445, -3.175, -1.905, -0.635, 0.635, 1.905, 3.175,
-	4.445, 5.715, 6.985, 8.255,
-];
-
-const pcm2902Footprint = (
-	<footprint>
-		{pcm2902LeftPadYs.map((y, index) => (
-			<smtpad
-				//@ts-ignore
-				key={`left-${index}`}
-				portHints={[`${index + 1}`]}
-				pcbX="-2.05mm"
-				pcbY={`${y}mm`}
-				width="1.1mm"
-				height="0.51mm"
-				shape="rect"
-			/>
-		))}
-		{pcm2902RightPadYs.map((y, index) => (
-			<smtpad
-				//@ts-ignore
-				key={`right-${index}`}
-				portHints={[`${index + 15}`]}
-				pcbX="2.05mm"
-				pcbY={`${y}mm`}
-				width="1.1mm"
-				height="0.51mm"
-				shape="rect"
-			/>
-		))}
-		<silkscreenrect pcbX={0} pcbY={0} width="5.2mm" height="17mm" />
-	</footprint>
-);
-
-const PCM2902 = (props: ChipProps<typeof pcm2902PinLabels>) => (
-	<chip
-		{...props}
-		footprint={pcm2902Footprint}
-		manufacturerPartNumber={pcm2902Part.manufacturerPartNumber}
-		supplierPartNumbers={pcm2902Part.supplierPartNumbers}
-		pinLabels={pcm2902PinLabels}
-		pinAttributes={{
-			VBUS: { requiresPower: true },
-			VCC5: { requiresPower: true },
-			VCCL: { requiresPower: true },
-			VCCP: { requiresPower: true },
-			DGND: { requiresGround: true },
-			AGND: { requiresGround: true },
-			GNDA2: { requiresGround: true },
-			GNDP: { requiresGround: true },
-		}}
-	/>
-);
 
 export function CodecSection() {
 	return (
 		<>
-			<PCM2902
+			<PCM2900CDBR
 				name="U1"
-				pcbX={LAYOUT.codec.pcm2902.x}
-				pcbY={LAYOUT.codec.pcm2902.y}
+				pcbX={LAYOUT.codec.pcm2900.x}
+				pcbY={LAYOUT.codec.pcm2900.y}
 			/>
 			<X322512MSB4SI
 				name="Y1"
@@ -156,16 +66,19 @@ export function CodecSection() {
 				pcbY={LAYOUT.codec.c10.y}
 			/>
 
-			<trace from={nets.usbDp} to="U1.DPLUS" width={TRACE_WIDTHS.usb} />
-			<trace from={nets.usbDm} to="U1.DMINUS" width={TRACE_WIDTHS.usb} />
+			<trace from={nets.usbDp} to="U1.D_POS" width={TRACE_WIDTHS.usb} />
+			<trace from={nets.usbDm} to="U1.D_NEG" width={TRACE_WIDTHS.usb} />
 			<trace from={nets.vbus} to="U1.VBUS" width="0.3mm" />
-			<trace from={nets.vbus} to="U1.VCC5" width="0.3mm" />
-			<trace from={nets.vbus} to="U1.VCCL" width="0.3mm" />
-			<trace from={nets.vbus} to="U1.VCCP" width="0.3mm" />
+			<trace from={nets.vbus} to="U1.VCCCI" width="0.3mm" />
+			<trace from={nets.vbus} to="U1.VCCP1I" width="0.3mm" />
+			<trace from={nets.vbus} to="U1.VCCP2I" width="0.3mm" />
+			<trace from={nets.vbus} to="U1.VCCXI" width="0.3mm" />
+			<trace from={nets.vbus} to="U1.VDDI" width="0.3mm" />
+			<trace from="U1.DGNDU" to={nets.gnd} />
 			<trace from="U1.DGND" to={nets.gnd} />
-			<trace from="U1.AGND" to={nets.gnd} />
-			<trace from="U1.GNDA2" to={nets.gnd} />
-			<trace from="U1.GNDP" to={nets.gnd} />
+			<trace from="U1.AGNDC" to={nets.gnd} />
+			<trace from="U1.AGNDP" to={nets.gnd} />
+			<trace from="U1.AGNDX" to={nets.gnd} />
 
 			<trace from="U1.XTI" to="Y1.OSC1" />
 			<trace from="U1.XTO" to="Y1.OSC2" />
@@ -184,22 +97,19 @@ export function CodecSection() {
 			<trace from="U1.VCOM" to="C10.pin1" />
 			<trace from="C10.pin2" to={nets.gnd} />
 
-			<trace from="U1.PSEL" to={nets.gnd} />
+			<trace from="U1.SEL0" to={nets.vbus} />
+			<trace from="U1.SEL1" to={nets.vbus} />
 			<trace from="U1.SSPND" to={nets.vbus} />
 			<trace from="U1.TEST0" to={nets.gnd} />
 			<trace from="U1.TEST1" to={nets.gnd} />
-			<trace from="U1.TEST2" to={nets.gnd} />
-			<trace from="U1.TEST3" to={nets.gnd} />
-
-			<trace from="U1.SCKO" to={nets.audioMclk} />
-			<trace from="U1.BCK" to={nets.audioBclk} />
-			<trace from="U1.LRCK" to={nets.audioLrck} />
-			<trace from="U1.DOUT" to={nets.audioData} />
+			<trace from="U1.HID0" to={nets.gnd} />
+			<trace from="U1.HID1" to={nets.gnd} />
+			<trace from="U1.HID2" to={nets.gnd} />
 
 			<silkscreentext
 				pcbX={LAYOUT.codec.label.x}
 				pcbY={LAYOUT.codec.label.y}
-				text="PCM2902 USB AUDIO"
+				text="PCM2900 USB AUDIO"
 				fontSize="1.1mm"
 			/>
 		</>

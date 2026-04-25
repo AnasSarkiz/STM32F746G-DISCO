@@ -11,9 +11,3 @@ export const supplierPartNumbers = {
 	led0603Yellow: jlc("C72038"),
 	led0603Red: jlc("C2286"),
 };
-
-export const pcm2902Part = {
-	footprint: "ssop28",
-	manufacturerPartNumber: "PCM2902CDBR",
-	supplierPartNumbers: jlc("C467656"),
-};

@@ -107,10 +107,6 @@ export function McuSection() {
 			<trace from={nets.boot0} to="R4.pin1" />
 			<trace from="R4.pin2" to={nets.gnd} />
 
-			<trace from={nets.audioMclk} to="U2.PA5" />
-			<trace from={nets.audioData} to="U2.PA7" />
-			<trace from={nets.audioBclk} to="U2.PB0" />
-			<trace from={nets.audioLrck} to="U2.PB1" />
 			<trace from="U2.PA0" to={nets.ledData} />
 			<trace from="U2.PA1" to={nets.ledSrclk} />
 			<trace from="U2.PA2" to={nets.ledLatch} />

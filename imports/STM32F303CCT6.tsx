@@ -55,6 +55,17 @@ export const STM32F303CCT6 = (props: ChipProps<typeof pinLabels>) => {
 	return (
 		<chip
 			pinLabels={pinLabels}
+			pinAttributes={{
+				VBAT: { requiresPower: true },
+				VDDA: { requiresPower: true },
+				VDD1: { requiresPower: true },
+				VDD2: { requiresPower: true },
+				VDD3: { requiresPower: true },
+				VSSA: { requiresGround: true },
+				VSS1: { requiresGround: true },
+				VSS2: { requiresGround: true },
+				VSS3: { requiresGround: true },
+			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C81523"],
 			}}

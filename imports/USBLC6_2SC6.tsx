@@ -13,6 +13,11 @@ export const USBLC6_2SC6 = (props: ChipProps<typeof pinLabels>) => {
 	return (
 		<chip
 			pinLabels={pinLabels}
+			pinAttributes={{
+				pin1: { requiresPower: true },
+				pin4: { requiresGround: true },
+				pin5: { requiresGround: true },
+			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C7519"],
 			}}

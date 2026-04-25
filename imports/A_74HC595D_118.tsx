@@ -23,6 +23,10 @@ export const A_74HC595D_118 = (props: ChipProps<typeof pinLabels>) => {
 	return (
 		<chip
 			pinLabels={pinLabels}
+			pinAttributes={{
+				VCC: { requiresPower: true },
+				GND: { requiresGround: true },
+			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C5947"],
 			}}

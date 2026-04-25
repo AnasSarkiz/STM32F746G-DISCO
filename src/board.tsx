@@ -28,7 +28,7 @@ export default function UsbAudioVuMeter() {
 			<silkscreentext
 				pcbX={LAYOUT.boardText.title.x}
 				pcbY={LAYOUT.boardText.title.y}
-				text="USB AUDIO VU METER - PCM2902 + STM32F303"
+				text="USB AUDIO VU METER - PCM2900 + STM32F303"
 				fontSize="1.1mm"
 			/>
 			<silkscreentext

@@ -29,7 +29,7 @@ export const LAYOUT = {
 		label: { x: -26, y: -17.5 },
 	},
 	codec: {
-		pcm2902: { x: -21, y: 0 },
+		pcm2900: { x: -19, y: 0 },
 		crystal: { x: -10, y: 8 },
 		c5: { x: -18, y: 10 },
 		c6: { x: -2, y: 10 },

@@ -11,6 +11,12 @@ export const AMS1117_3_3 = (props: ChipProps<typeof pinLabels>) => {
 	return (
 		<chip
 			pinLabels={pinLabels}
+			pinAttributes={{
+				VIN: { requiresPower: true },
+				VOUT1: { requiresPower: true },
+				VOUT2: { requiresPower: true },
+				GND: { requiresGround: true },
+			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C6186"],
 			}}

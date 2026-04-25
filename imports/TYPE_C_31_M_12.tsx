@@ -23,6 +23,16 @@ export const TYPE_C_31_M_12 = (props: ChipProps<typeof pinLabels>) => {
 	return (
 		<chip
 			pinLabels={pinLabels}
+			pinAttributes={{
+				A4B9: { requiresPower: true },
+				B4A9: { requiresPower: true },
+				A1B12: { requiresGround: true },
+				B1A12: { requiresGround: true },
+				EH1: { requiresGround: true },
+				EH2: { requiresGround: true },
+				EH3: { requiresGround: true },
+				EH4: { requiresGround: true },
+			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C165948"],
 			}}

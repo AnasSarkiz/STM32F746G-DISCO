@@ -11,6 +11,12 @@ export const TS_1187A_B_A_B = (props: ChipProps<typeof pinLabels>) => {
 	return (
 		<chip
 			pinLabels={pinLabels}
+			pinAttributes={{
+				A: { requiresPower: true },
+				C: { requiresPower: true },
+				B: { requiresGround: true },
+				D: { requiresGround: true },
+			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C318884"],
 			}}
