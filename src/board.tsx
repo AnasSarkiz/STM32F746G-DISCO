@@ -1,6 +1,5 @@
 import { CodecSection } from "./components/CodecSection/CodecSection";
 import { DebugHeader } from "./components/DebugHeader/DebugHeader";
-import { Display } from "./components/Display/Display";
 import { LedBar } from "./components/LedBar/LedBar";
 import { McuSection } from "./components/McuSection/McuSection";
 import { PowerSection } from "./components/PowerSection/PowerSection";
@@ -13,13 +12,14 @@ export default function UsbAudioVuMeter() {
 			width={`${BOARD_WIDTH_MM}mm`}
 			height={`${BOARD_HEIGHT_MM}mm`}
 			layers={2}
+			minViaHoleDiameter={0.3}
+			minViaPadDiameter={0.45}
 		>
 			<UsbSection />
 			<PowerSection />
 			<CodecSection />
 			<McuSection />
 			<LedBar />
-			<Display />
 			<DebugHeader />
 
 			<copperpour layer="top" connectsTo="net.GND" clearance="0.2mm" />
@@ -28,7 +28,7 @@ export default function UsbAudioVuMeter() {
 			<silkscreentext
 				pcbX={LAYOUT.boardText.title.x}
 				pcbY={LAYOUT.boardText.title.y}
-				text="USB AUDIO VU METER - PCM2900 + STM32F303"
+				text="USB AUDIO 24 LED VU METER - PCM2900 + STM32F303"
 				fontSize="1.1mm"
 			/>
 			<silkscreentext

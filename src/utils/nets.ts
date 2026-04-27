@@ -4,8 +4,6 @@ export const nets = {
 	v3v3: "net.V3_3",
 	usbDp: "net.USB_DP",
 	usbDm: "net.USB_DM",
-	oledScl: "net.OLED_SCL",
-	oledSda: "net.OLED_SDA",
 	ledData: "net.LED_DATA",
 	ledSrclk: "net.LED_SRCLK",
 	ledLatch: "net.LED_LATCH",

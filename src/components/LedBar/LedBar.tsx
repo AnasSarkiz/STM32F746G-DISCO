@@ -3,6 +3,7 @@ import { A_74HC595D_118 } from "../../../imports/A_74HC595D_118";
 import { supplierPartNumbers } from "../../parts/lcsc";
 import {
 	LAYOUT,
+	LED_COUNT,
 	LED_SPACING_MM,
 	LED_START_X_MM,
 	TRACE_WIDTHS,
@@ -30,25 +31,51 @@ const ledSources = [
 	"U8.Q1",
 	"U8.Q2",
 	"U8.Q3",
+	"U8.Q4",
+	"U8.Q5",
+	"U8.Q6",
+	"U8.Q7",
 ] as const;
 
 const ledXs = Array.from(
-	{ length: 20 },
+	{ length: LED_COUNT },
 	(_, index) => LED_START_X_MM + index * LED_SPACING_MM,
 );
 
-function getLedPart(index: number) {
-	const segment = index < 10 ? 9 - index : index - 10;
-	if (segment >= 8) return supplierPartNumbers.led0603Red;
-	if (segment >= 6) return supplierPartNumbers.led0603Yellow;
-	return supplierPartNumbers.led0603Green;
-}
+const ledColorMap = [
+	"red",
+	"red",
+	"yellow",
+	"yellow",
+	"green",
+	"green",
+	"blue",
+	"blue",
+	"white",
+	"white",
+	"blue",
+	"blue",
+	"blue",
+	"blue",
+	"white",
+	"white",
+	"blue",
+	"blue",
+	"green",
+	"green",
+	"yellow",
+	"yellow",
+	"red",
+	"red",
+] as const;
 
-function getLedColor(index: number) {
-	const segment = index < 10 ? 9 - index : index - 10;
-	if (segment >= 8) return "red";
-	if (segment >= 6) return "yellow";
-	return "green";
+function getLedPart(index: number) {
+	const color = ledColorMap[index];
+	if (color === "red") return supplierPartNumbers.led0603Red;
+	if (color === "yellow") return supplierPartNumbers.led0603Yellow;
+	if (color === "blue") return supplierPartNumbers.led0603Blue;
+	if (color === "white") return supplierPartNumbers.led0603White;
+	return supplierPartNumbers.led0603Green;
 }
 
 export function LedBar() {
@@ -56,19 +83,19 @@ export function LedBar() {
 		<>
 			<A_74HC595D_118
 				name="U6"
-				pcbX={21}
+				pcbX={LAYOUT.ledBar.driverXs[0]}
 				pcbY={LAYOUT.ledBar.driversY}
 				pcbRotation={90}
 			/>
 			<A_74HC595D_118
 				name="U7"
-				pcbX={33}
+				pcbX={LAYOUT.ledBar.driverXs[1]}
 				pcbY={LAYOUT.ledBar.driversY}
 				pcbRotation={90}
 			/>
 			<A_74HC595D_118
 				name="U8"
-				pcbX={45}
+				pcbX={LAYOUT.ledBar.driverXs[2]}
 				pcbY={LAYOUT.ledBar.driversY}
 				pcbRotation={90}
 			/>
@@ -77,7 +104,7 @@ export function LedBar() {
 				capacitance="100nF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_100n}
-				pcbX={21}
+				pcbX={LAYOUT.ledBar.driverXs[0]}
 				pcbY={LAYOUT.ledBar.decouplingY}
 			/>
 			<capacitor
@@ -85,7 +112,7 @@ export function LedBar() {
 				capacitance="100nF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_100n}
-				pcbX={33}
+				pcbX={LAYOUT.ledBar.driverXs[1]}
 				pcbY={LAYOUT.ledBar.decouplingY}
 			/>
 			<capacitor
@@ -93,7 +120,7 @@ export function LedBar() {
 				capacitance="100nF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_100n}
-				pcbX={45}
+				pcbX={LAYOUT.ledBar.driverXs[2]}
 				pcbY={LAYOUT.ledBar.decouplingY}
 			/>
 
@@ -103,7 +130,7 @@ export function LedBar() {
 					<led
 						key={`led-${index + 1}`}
 						name={`LED${index + 1}`}
-						color={getLedColor(index)}
+						color={ledColorMap[index]}
 						footprint="0603"
 						supplierPartNumbers={part}
 						pcbX={x}
@@ -194,13 +221,13 @@ export function LedBar() {
 			<silkscreentext
 				pcbX={LAYOUT.ledBar.leftLabel.x}
 				pcbY={LAYOUT.ledBar.leftLabel.y}
-				text="LEFT 10 SEG"
+				text="LEFT 12 SEG"
 				fontSize="1mm"
 			/>
 			<silkscreentext
 				pcbX={LAYOUT.ledBar.rightLabel.x}
 				pcbY={LAYOUT.ledBar.rightLabel.y}
-				text="RIGHT 10 SEG"
+				text="RIGHT 12 SEG"
 				fontSize="1mm"
 			/>
 		</>

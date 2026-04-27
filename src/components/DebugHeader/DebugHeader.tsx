@@ -15,6 +15,7 @@ export function DebugHeader() {
 				footprint="pinrow5"
 				pinLabels={swdHeaderPinLabels}
 				supplierPartNumbers={supplierPartNumbers.pinHeader}
+				doNotPlace
 				pcbX={LAYOUT.debug.swd.x}
 				pcbY={LAYOUT.debug.swd.y}
 			/>
@@ -24,6 +25,7 @@ export function DebugHeader() {
 				footprint="pinrow3"
 				pinLabels={bootHeaderPinLabels}
 				supplierPartNumbers={supplierPartNumbers.pinHeader}
+				doNotPlace
 				pcbX={LAYOUT.debug.boot0.x}
 				pcbY={LAYOUT.debug.boot0.y}
 			/>
@@ -41,13 +43,13 @@ export function DebugHeader() {
 			<silkscreentext
 				pcbX={LAYOUT.debug.swdLabel.x}
 				pcbY={LAYOUT.debug.swdLabel.y}
-				text="SWD"
+				text="SWD DNP"
 				fontSize="1mm"
 			/>
 			<silkscreentext
 				pcbX={LAYOUT.debug.boot0Label.x}
 				pcbY={LAYOUT.debug.boot0Label.y}
-				text="BOOT0"
+				text="BOOT0 DNP"
 				fontSize="1mm"
 			/>
 		</>

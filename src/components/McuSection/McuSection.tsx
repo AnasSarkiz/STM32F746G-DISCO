@@ -17,7 +17,7 @@ export function McuSection() {
 				capacitance="100nF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_100n}
-				pcbX={2}
+				pcbX={LAYOUT.mcu.decouplingXs[0]}
 				pcbY={LAYOUT.mcu.decouplingY}
 			/>
 			<capacitor
@@ -25,7 +25,7 @@ export function McuSection() {
 				capacitance="100nF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_100n}
-				pcbX={5}
+				pcbX={LAYOUT.mcu.decouplingXs[1]}
 				pcbY={LAYOUT.mcu.decouplingY}
 			/>
 			<capacitor
@@ -33,7 +33,7 @@ export function McuSection() {
 				capacitance="100nF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_100n}
-				pcbX={8}
+				pcbX={LAYOUT.mcu.decouplingXs[2]}
 				pcbY={LAYOUT.mcu.decouplingY}
 			/>
 			<capacitor
@@ -41,7 +41,7 @@ export function McuSection() {
 				capacitance="100nF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_100n}
-				pcbX={11}
+				pcbX={LAYOUT.mcu.decouplingXs[3]}
 				pcbY={LAYOUT.mcu.decouplingY}
 			/>
 			<capacitor
@@ -49,7 +49,7 @@ export function McuSection() {
 				capacitance="1uF"
 				footprint="0603"
 				supplierPartNumbers={supplierPartNumbers.capacitor0603_1u}
-				pcbX={14}
+				pcbX={LAYOUT.mcu.decouplingXs[4]}
 				pcbY={LAYOUT.mcu.decouplingY}
 			/>
 
@@ -111,8 +111,6 @@ export function McuSection() {
 			<trace from="U2.PA1" to={nets.ledSrclk} />
 			<trace from="U2.PA2" to={nets.ledLatch} />
 			<trace from="U2.PA3" to={nets.ledOe} />
-			<trace from="U2.PB10" to={nets.oledScl} />
-			<trace from="U2.PB11" to={nets.oledSda} />
 
 			<silkscreentext
 				pcbX={LAYOUT.mcu.label.x}

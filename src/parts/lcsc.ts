@@ -10,4 +10,6 @@ export const supplierPartNumbers = {
 	led0603Green: jlc("C72043"),
 	led0603Yellow: jlc("C72038"),
 	led0603Red: jlc("C2286"),
+	led0603Blue: jlc("C72041"),
+	led0603White: jlc("C2290"),
 };
