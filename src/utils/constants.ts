@@ -14,7 +14,7 @@ export const LED_START_X_MM = -41.75;
 
 export const LAYOUT = {
 	usb: {
-		connector: { x: -55, y: -8 },
+		connector: { x: -54.5, y: -8 },
 		esd: { x: -43, y: -8 },
 		fuse: { x: -47, y: -15 },
 		cc1: { x: -50, y: 5 },
