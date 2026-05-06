@@ -146,7 +146,7 @@ export function LedBar() {
 					name={`RLED${index + 1}`}
 					resistance="330"
 					footprint="0603"
-					supplierPartNumbers={supplierPartNumbers.resistor0603}
+					supplierPartNumbers={supplierPartNumbers.resistor0603_330}
 					pcbX={x}
 					pcbY={LAYOUT.ledBar.resistorsY}
 					pcbRotation={90}
@@ -182,19 +182,10 @@ export function LedBar() {
 			<trace from="C18.pin2" to={nets.gnd} />
 
 			{ledXs.map((_, index) => (
-				<Fragment key={`rled-vcc-${index + 1}`}>
-					<trace
-						from={`RLED${index + 1}.pin1`}
-						to={nets.v3v3}
-						width={TRACE_WIDTHS.led}
-					/>
-				</Fragment>
-			))}
-			{ledXs.map((_, index) => (
 				<Fragment key={`driver-rled-${index + 1}`}>
 					<trace
 						from={ledSources[index]}
-						to={`RLED${index + 1}.pin2`}
+						to={`RLED${index + 1}.pin1`}
 						width={TRACE_WIDTHS.led}
 					/>
 				</Fragment>

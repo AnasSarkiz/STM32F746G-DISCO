@@ -26,7 +26,7 @@ export function UsbSection() {
 				name="R1"
 				resistance="5.1k"
 				footprint="0603"
-				supplierPartNumbers={supplierPartNumbers.resistor0603}
+				supplierPartNumbers={supplierPartNumbers.resistor0603_5k1}
 				pcbX={LAYOUT.usb.cc1.x}
 				pcbY={LAYOUT.usb.cc1.y}
 			/>
@@ -34,7 +34,7 @@ export function UsbSection() {
 				name="R2"
 				resistance="5.1k"
 				footprint="0603"
-				supplierPartNumbers={supplierPartNumbers.resistor0603}
+				supplierPartNumbers={supplierPartNumbers.resistor0603_5k1}
 				pcbX={LAYOUT.usb.cc2.x}
 				pcbY={LAYOUT.usb.cc2.y}
 			/>
@@ -49,19 +49,18 @@ export function UsbSection() {
 			<trace from="F1.pin2" to={nets.vbus} width={TRACE_WIDTHS.power} />
 			<trace from="J1.A1B12" to={nets.gnd} width={TRACE_WIDTHS.power} />
 			<trace from="J1.B1A12" to={nets.gnd} width={TRACE_WIDTHS.power} />
-			<trace from="J1.A6" to="U4.pin3" width={TRACE_WIDTHS.usb} />
-			<trace from="J1.B6" to="U4.pin3" width={TRACE_WIDTHS.usb} />
-			<trace from="J1.A7" to="U4.pin2" width={TRACE_WIDTHS.usb} />
-			<trace from="J1.B7" to="U4.pin2" width={TRACE_WIDTHS.usb} />
-			<trace from="U4.pin3" to={nets.usbDp} width={TRACE_WIDTHS.usb} />
-			<trace from="U4.pin2" to={nets.usbDm} width={TRACE_WIDTHS.usb} />
-			<trace from="J1.A4B9" to="U4.pin1" width="0.2mm" />
+			<trace from="J1.A6" to="U4.IO1A" width={TRACE_WIDTHS.usb} />
+			<trace from="J1.B6" to="U4.IO1A" width={TRACE_WIDTHS.usb} />
+			<trace from="U4.IO1B" to={nets.usbDp} width={TRACE_WIDTHS.usb} />
+			<trace from="J1.A7" to="U4.IO2A" width={TRACE_WIDTHS.usb} />
+			<trace from="J1.B7" to="U4.IO2A" width={TRACE_WIDTHS.usb} />
+			<trace from="U4.IO2B" to={nets.usbDm} width={TRACE_WIDTHS.usb} />
+			<trace from="J1.A4B9" to="U4.VBUS" width="0.2mm" />
 			<trace from="J1.EH1" to={nets.gnd} width="0.3mm" />
 			<trace from="J1.EH2" to={nets.gnd} width="0.3mm" />
 			<trace from="J1.EH3" to={nets.gnd} width="0.3mm" />
 			<trace from="J1.EH4" to={nets.gnd} width="0.3mm" />
-			<trace from="U4.pin4" to={nets.gnd} width="0.3mm" />
-			<trace from="U4.pin5" to={nets.gnd} width="0.3mm" />
+			<trace from="U4.GND" to={nets.gnd} width="0.3mm" />
 
 			<silkscreentext
 				pcbX={LAYOUT.usb.label.x}

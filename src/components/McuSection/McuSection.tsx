@@ -57,7 +57,7 @@ export function McuSection() {
 				name="R3"
 				resistance="10k"
 				footprint="0603"
-				supplierPartNumbers={supplierPartNumbers.resistor0603}
+				supplierPartNumbers={supplierPartNumbers.resistor0603_10k}
 				pcbX={LAYOUT.mcu.resetPulldowns.r3.x}
 				pcbY={LAYOUT.mcu.resetPulldowns.r3.y}
 			/>
@@ -65,7 +65,7 @@ export function McuSection() {
 				name="R4"
 				resistance="100k"
 				footprint="0603"
-				supplierPartNumbers={supplierPartNumbers.resistor0603}
+				supplierPartNumbers={supplierPartNumbers.resistor0603_100k}
 				pcbX={LAYOUT.mcu.resetPulldowns.r4.x}
 				pcbY={LAYOUT.mcu.resetPulldowns.r4.y}
 			/>
@@ -111,6 +111,8 @@ export function McuSection() {
 			<trace from="U2.PA1" to={nets.ledSrclk} />
 			<trace from="U2.PA2" to={nets.ledLatch} />
 			<trace from="U2.PA3" to={nets.ledOe} />
+			<trace from="U2.PA4" to={nets.audioLeft} />
+			<trace from="U2.PA5" to={nets.audioRight} />
 
 			<silkscreentext
 				pcbX={LAYOUT.mcu.label.x}

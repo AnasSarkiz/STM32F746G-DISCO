@@ -21,6 +21,8 @@ export default function UsbAudioVuMeter() {
 			<McuSection />
 			<LedBar />
 			<DebugHeader />
+			<copperpour layer="top" connectsTo="net.GND" clearance="0.2mm" />
+			<copperpour layer="bottom" connectsTo="net.GND" clearance="0.2mm" />
 
 			<silkscreentext
 				pcbX={LAYOUT.boardText.title.x}

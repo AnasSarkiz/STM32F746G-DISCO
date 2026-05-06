@@ -19,7 +19,7 @@
 	},
 	"devDependencies": {
 		"@types/react": "^19.2.14",
-		"tscircuit": "^0.0.1713",
+		"tscircuit": "^0.0.1731",
 		"typescript": "^6.0.2"
 	},
 	"author": "AnasSarkiz"

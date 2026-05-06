@@ -14,7 +14,7 @@ export const LED_START_X_MM = -41.75;
 
 export const LAYOUT = {
 	usb: {
-		connector: { x: -54.5, y: -8 },
+		connector: { x: -55.5, y: -8 },
 		esd: { x: -43, y: -8 },
 		fuse: { x: -47, y: -15 },
 		cc1: { x: -50, y: 5 },
@@ -38,12 +38,17 @@ export const LAYOUT = {
 		c8: { x: -42, y: 5 },
 		c9: { x: -42, y: 2 },
 		c10: { x: -27, y: -13 },
+		c19: { x: -17, y: -13 },
+		c20: { x: -13, y: -13 },
+		c21: { x: -9, y: -13 },
+		r5: { x: -17, y: -5 },
+		r6: { x: -17, y: -1 },
 		label: { x: -32, y: 14 },
 	},
 	mcu: {
 		stm32: { x: 0, y: -3 },
 		decouplingXs: [-6, -3, 0, 3, 6],
-		decouplingY: 11,
+		decouplingY: 9,
 		resetPulldowns: {
 			r3: { x: 8, y: -13 },
 			r4: { x: 12, y: -10 },

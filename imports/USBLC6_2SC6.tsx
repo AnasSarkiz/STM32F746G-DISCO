@@ -1,12 +1,12 @@
 import type { ChipProps } from "@tscircuit/props";
 
 const pinLabels = {
-	pin1: ["pin1"],
-	pin2: ["pin2"],
-	pin3: ["pin3"],
-	pin4: ["pin4"],
-	pin5: ["pin5"],
-	pin6: ["pin6"],
+	pin1: ["IO1A"],
+	pin2: ["GND"],
+	pin3: ["IO2A"],
+	pin4: ["IO2B"],
+	pin5: ["VBUS"],
+	pin6: ["IO1B"],
 } as const;
 
 export const USBLC6_2SC6 = (props: ChipProps<typeof pinLabels>) => {
@@ -14,9 +14,8 @@ export const USBLC6_2SC6 = (props: ChipProps<typeof pinLabels>) => {
 		<chip
 			pinLabels={pinLabels}
 			pinAttributes={{
-				pin1: { requiresPower: true },
-				pin4: { requiresGround: true },
-				pin5: { requiresGround: true },
+				VBUS: { requiresPower: true },
+				GND: { requiresGround: true },
 			}}
 			supplierPartNumbers={{
 				jlcpcb: ["C7519"],
