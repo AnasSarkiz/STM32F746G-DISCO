@@ -1,66 +1,88 @@
 # STM32F746G-DISCO Circuit Review Report
 
-Date: 2026-04-18
+Date: 2026-05-31
 Reviewer: Codex
 
-## Scope
-- Read local tscircuit skill docs under `.codex/skills/tscircuit/`.
-- Reviewed circuit source files in `src/` plus imported component definitions in `imports/`.
-- Ran validation commands:
-  - `bun run typecheck`
-  - `bun run build` (tsci build)
-  - `bunx tsci check netlist`
-  - `bunx tsci check placement`
+## Verdict
 
-## Findings (Ordered by Severity)
+The board is not ready to order yet. The logical placement now renders cleanly, but the routed PCB still has DRC and disconnected-route errors around the USB-C connector, PCM2900 codec, and a few dense decoupling/LED-driver routes.
 
-### P1 - TypeScript compile fails in custom PCM2902 footprint JSX
-- File: `src/components/CodecSection/CodecSection.tsx:50-65`
-- `bun run typecheck` fails with:
-  - `Unused '@ts-expect-error' directive`
-  - `Property 'key' does not exist on type 'RectSmtPadProps'`
-- Root cause:
-  - `key` is passed directly to intrinsic `<smtpad />` elements where the type does not allow it.
-  - The current `@ts-expect-error` placement does not suppress the reported location correctly.
-- Impact:
-  - CI/typecheck failure blocks clean verification pipeline.
+The source-level connectivity does not show a VBUS-to-GND or 3V3-to-GND short. However, the manufactured copper cannot be signed off as short-free until the routed PCB has zero DRC errors.
 
-### P1 - PCB routing currently has many DRC/clearance violations (manufacturing blocker)
-- File: layout generated from board composition in `src/board.tsx` and section files under `src/components/`
-- `bun run build` reports many hard issues, including:
-  - trace-to-trace overlaps
-  - trace-to-pad accidental contacts
-  - via-to-via clearance violations (including different nets)
-- Representative errors from build output:
-  - `trace[.U8 > port.pin12, .U7 > port.pin12] overlaps with trace[.RLED13 > port.cathode, .U7 > port.pin4] (accidental contact)`
-  - `trace[.U2 > port.pin47, .U2 > port.pin35] overlaps with pcb_smtpad "pcb_port[.U2 > .PB7]" (accidental contact)`
-  - `Vias pcb_via[#pcb_via_18] and pcb_via[#pcb_via_28] from different nets are too close together (gap: 0.066mm)`
-- Impact:
-  - Board is not fabrication-safe in current routed state.
+## Changes Made
 
-### P2 - Incomplete pin attributes reduce ERC quality and hide power/ground intent
-- Files: imported parts under `imports/*.tsx` (notably `STM32F303CCT6`, `TYPE_C_31_M_12`, `USBLC6_2SC6`, `AMS1117_3_3`, `A_74HC595D_118`, `X322512MSB4SI`, `TS_1187A_B_A_B`, `nSMD050_24V`)
-- `bun run build` shows repeated warnings:
-  - `All pins on <part> are underspecified (no pinAttributes set)`
-  - `<part> has no pin with requires_power=true`
-  - `<part> has no pin with requires_ground=true`
-- Impact:
-  - Logical netlist is valid (`tsci check netlist` passes), but ERC is less effective at catching future wiring mistakes.
+- Spread the STM32 decoupling capacitors to remove a C15/C16 placement/courtyard conflict.
+- Spread the three 74HC595 LED drivers to reduce routing congestion.
+- Moved the PCM2900 output resistors closer to the codec output pins.
+- Corrected README references from PCM2902 to PCM2900 and fixed board size from 140 mm x 74 mm to 120 mm x 74 mm.
 
-### P3 - Documentation mismatch for supplier part numbers file path
-- File: `README.md:40`
-- README says part numbers are in `src/parts/jlcpcb.ts`, but project uses `src/parts/lcsc.ts`.
-- Impact:
-  - Onboarding confusion and slower maintenance.
+## Checks Run
 
-## Checks Summary
-- `bun run typecheck`: **Failed** (4 errors in `CodecSection.tsx`)
-- `bun run build`: **Completed with errors/warnings** (DRC overlaps/clearance + underspecified pin attributes)
-- `bunx tsci check netlist`: **Passed** (`Errors: 0`, `Warnings: 0`)
-- `bunx tsci check placement`: **Passed** (`Errors: 0`, `Warnings: 0`)
+- Source connectivity render with routing disabled:
+  - Result: Passed with no source-level short/connection errors.
+  - Confirmed separate nets for connector-side VBUS, fused `VBUS_5V`, `V3_3`, and `GND`.
+- Unrouted render with placement/DRC enabled and routing disabled:
+  - Result: Passed for physical placement.
+  - Remaining warning: `F1 has no pin with requires_ground=true`, expected for a two-pin fuse import and not a fabrication blocker.
+- Full routed render through the tscircuit core:
+  - Result: Failed order-readiness due to PCB trace and route endpoint errors.
+- `bun run build` / `bunx tsc`:
+  - Result: CLI sessions stalled in this environment and were stopped. The direct tscircuit core render was used for actionable DRC output.
 
-## Suggested Fix Order
-1. Fix TypeScript footprint typing issue in `CodecSection.tsx` so CI is green.
-2. Resolve routing/clearance conflicts reported by `tsci build` (especially accidental contacts and cross-net via spacing).
-3. Add `pinAttributes` to imported chips/connectors to improve electrical-rule diagnostics.
-4. Update README path (`src/parts/lcsc.ts`).
+## Remaining Blockers
+
+### P1 - Cannot guarantee no manufactured short until routed DRC is clean
+
+The intended schematic nets are separate, but the current routed PCB still reports copper clearance/contact problems. That means the design intent is not shorted, but the generated manufacturing copper is not safe to order yet.
+
+Impact: A fabricated board could have opens, shorts, or marginal clearances even though the logical netlist is mostly correct.
+
+### P1 - Routed PCB still has DRC errors
+
+Representative full-route errors:
+
+- `C14/C13` positive and negative traces overlap or run too close.
+- `U1.D_POS` to `U4.IO1B` is too close to an autorouter via and has a disconnected endpoint at the PCM2900 pin.
+- `U1` local ground/control traces near pins 3, 8, 22, 24, and 26 create via-clearance or disconnected endpoint errors.
+- `RLED6` to `U6` is too close to an autorouter via.
+- `J1` USB-C VBUS/GND polygon pads produce disconnected endpoints and pad/trace clearance errors.
+
+Impact: Do not fabricate until these are fixed and the routed build has zero PCB trace, via clearance, pad clearance, and disconnected endpoint errors.
+
+### P1 - USB-C imported footprint/routing needs manual verification
+
+The USB-C connector import uses polygon pads for combined VBUS/GND pins. The autorouter repeatedly reports disconnected endpoints on those pads, especially around `J1.A1B12`, `J1.B1A12`, `J1.A4B9`, and `J1.B4A9`.
+
+Impact: The connector footprint and generated route should be verified against the vendor datasheet and Gerbers. It may need a cleaner imported footprint or manual routing around the connector pads.
+
+### P2 - PCM2900 output and local capacitor routes need cleanup
+
+The codec area still reports disconnected endpoints or clearance problems on the USB D+ route, VOUTR route, VCOM capacitor route, and several local ground/control connections.
+
+Impact: The codec may fail routing/manufacturing checks even though the schematic connectivity intent is clear.
+
+### P2 - LED output-enable should not float during reset
+
+The 74HC595 `OE` pins are active-low and are connected only to the STM32 (`U2.PA3`). This can work once firmware drives the pin, but during reset/boot the MCU pin may be high-impedance. A pull-down on `LED_OE`, or tying `OE` low if PWM blanking is not needed, would make LED enable state deterministic.
+
+Impact: LEDs may behave unpredictably during boot, even though this is not a short-circuit issue.
+
+## Connection Review Notes
+
+- USB-C CC pins are correctly pulled down through 5.1 kΩ resistors for a USB device/UFP.
+- USB D+ and D- are mapped consistently through the USBLC6 ESD array into `U1.D_POS` and `U1.D_NEG`.
+- Raw connector VBUS goes through `F1` before becoming fused `VBUS_5V`; `VBUS_5V` feeds the PCM2900 VBUS pin and AMS1117 input.
+- The AMS1117 output net powers the STM32, 74HC595 devices, SWD header VCC, BOOT header 3V3, and decoupling capacitors.
+- PCM2900 internal supply pins (`VCCCI`, `VCCP1I`, `VCCP2I`, `VCCXI`, `VDDI`, `VCOM`) are decoupled to ground, matching TI's pin-function guidance.
+- PCM2900 `TEST0` is tied to ground and `TEST1` is left open, matching TI's terminal-function guidance.
+- PCM2900 `VINL`/`VINR` are intentionally unconnected; this design uses DAC outputs `VOUTL`/`VOUTR` into STM32 ADC pins `PA4`/`PA5`.
+- The 74HC595 cascade is logically correct: STM32 data to `U6.DS`, then `U6.Q7S` to `U7.DS`, then `U7.Q7S` to `U8.DS`; `MR` is tied high and VCC/GND are connected.
+
+## Recommendation
+
+Do one more routing-focused layout pass before ordering:
+
+1. Replace or simplify the USB-C footprint import if its polygon pads remain unroutable.
+2. Add manual trace hints/manual routing for USB D+/D- and the connector power/ground pins.
+3. Spread the STM32 decoupling row a bit more or route those rails manually.
+4. Re-run full routing and only proceed when the generated circuit JSON contains no `*_error` entries.

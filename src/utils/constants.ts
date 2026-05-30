@@ -41,14 +41,14 @@ export const LAYOUT = {
 		c19: { x: -17, y: -13 },
 		c20: { x: -13, y: -13 },
 		c21: { x: -9, y: -13 },
-		r5: { x: -17, y: -5 },
-		r6: { x: -17, y: -1 },
+		r5: { x: -23, y: -5 },
+		r6: { x: -23, y: -1 },
 		label: { x: -32, y: 14 },
 	},
 	mcu: {
-		stm32: { x: 0, y: -3 },
-		decouplingXs: [-6, -3, 0, 3, 6],
-		decouplingY: 9,
+		stm32: { x: 1, y: 0 },
+		decouplingXs: [-12, -6, 0, 6, 12],
+		decouplingY: 13,
 		resetPulldowns: {
 			r3: { x: 8, y: -13 },
 			r4: { x: 12, y: -10 },
@@ -58,7 +58,7 @@ export const LAYOUT = {
 		resetLabel: { x: -4, y: -22 },
 	},
 	ledBar: {
-		driverXs: [20, 33, 46],
+		driverXs: [22, 38, 54],
 		driversY: 2,
 		decouplingY: 12,
 		resistorsY: 23,

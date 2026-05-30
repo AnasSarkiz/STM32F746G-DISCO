@@ -4,7 +4,7 @@ USB Audio VU Meter is a 2-layer tscircuit PCB for a USB sound-card endpoint that
 
 ## Hardware
 
-- PCM2902 USB audio codec for USB audio enumeration.
+- PCM2900 USB audio codec for USB audio enumeration.
 - STM32F303 microcontroller for meter DSP, peak hold, fast attack, and slow decay firmware.
 - USB-C power/data input with CC pull-downs, fuse, and USB ESD protection.
 - AMS1117-3.3 3.3 V regulator.
@@ -13,9 +13,9 @@ USB Audio VU Meter is a 2-layer tscircuit PCB for a USB sound-card endpoint that
 
 ## Layout Intent
 
-- Board size: 140 mm x 74 mm, 2 layers.
+- Board size: 120 mm x 74 mm, 2 layers.
 - USB-C is placed on the left board edge.
-- PCM2902 is near USB to keep D+ and D- short and length matched.
+- PCM2900 is near USB to keep D+ and D- short and length matched.
 - STM32F303 is beside the codec.
 - LED bar spans the top edge.
 - SWD and BOOT0 access are on the lower-right service area.
@@ -37,4 +37,4 @@ bunx tsci dev
 
 The project uses JLCPCB/LCSC supplier part numbers in `src/parts/lcsc.ts` where practical. Pin headers are marked DNP because they are intended for optional hand-soldered bring-up/debug access.
 
-Before fabrication, verify the exact PCM2902 package variant and USB-C footprint against vendor datasheets, inspect generated Gerbers, and tune USB differential impedance for the chosen PCB stackup.
+Before fabrication, verify the exact PCM2900 package variant and USB-C footprint against vendor datasheets, inspect generated Gerbers, and tune USB differential impedance for the chosen PCB stackup.
